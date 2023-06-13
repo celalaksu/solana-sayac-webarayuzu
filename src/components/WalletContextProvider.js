@@ -1,4 +1,3 @@
-import { FC, ReactNode } from "react";
 import {
   ConnectionProvider,
   WalletProvider,

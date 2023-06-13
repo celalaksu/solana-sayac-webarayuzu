@@ -3,32 +3,18 @@ import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import { Program, AnchorProvider, web3 } from "@project-serum/anchor";
 import idl from "../idl.json";
 
-import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
-import {
-  useWallet,
-  WalletProvider,
-  ConnectionProvider,
-} from "@solana/wallet-adapter-react";
-import {
-  WalletModalProvider,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 const { SystemProgram, Keypair } = web3;
 /* create an account  */
-const baseAccount = Keypair.generate();
 const opts = {
   preflightCommitment: "processed",
 };
 const programID = new PublicKey(idl.metadata.address);
 
-const network = clusterApiUrl("devnet");
-
 function Counter() {
   const [value, setValue] = useState("");
-  const [dataList, setDataList] = useState([]);
-  const [input, setInput] = useState("");
   const wallet = useWallet();
 
   async function getProvider() {
@@ -48,7 +34,6 @@ function Counter() {
 
   async function createCounter() {
     const provider = await getProvider();
-    const authority = provider.wallet.Keypair;
 
     const [counter, _counterBump] = await web3.PublicKey.findProgramAddress(
       [provider.wallet.publicKey.toBytes()],
